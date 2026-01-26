@@ -1,1 +1,17 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: theme('colors.backgroundLight');
+    @apply font-display text-[#1b170d] transition-colors duration-200;
+}
+
+.dark body {
+    background-color: theme('colors.backgroundDark');
+    @apply text-[#f3efe7];
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
