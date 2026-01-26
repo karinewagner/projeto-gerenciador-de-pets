@@ -1,4 +1,33 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../../services/auth';
+
 export function LoginPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await login({ username, password });
+      localStorage.setItem('authToken', data.access_token);
+      localStorage.setItem('user', username);
+      navigate('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Ocorreu um erro inesperado.');
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-background-light dark:bg-background-dark font-display text-[#1b170d] dark:text-[#f3efe7] min-h-screen flex flex-col">
       <main className="flex-grow flex overflow-hidden">
@@ -15,11 +44,18 @@ export function LoginPage() {
                 Ajude-nos a trazê-los para casa. Seus esforços fazem a diferença para reunir pets com suas famílias.
               </p>
             </div>
-            <form className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               <div className="flex flex-col w-full">
                 <label className="flex flex-col w-full">
                   <p className="text-[#1b170d] dark:text-[#f3efe7] text-base font-medium leading-normal pb-2">Usuário</p>
-                  <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1b170d] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dfcf] dark:border-[#4a412c] bg-background-light dark:bg-[#2c2415] focus:border-primary h-14 placeholder:text-[#9a804c] p-[15px] text-base font-normal leading-normal" placeholder="Digite seu usuário" type="text" />
+                  <input
+                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1b170d] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dfcf] dark:border-[#4a412c] bg-background-light dark:bg-[#2c2415] focus:border-primary h-14 placeholder:text-[#9a804c] p-[15px] text-base font-normal leading-normal"
+                    placeholder="Digite seu usuário"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
                 </label>
               </div>
               <div className="flex flex-col w-full">
@@ -28,15 +64,31 @@ export function LoginPage() {
                     <p className="text-[#1b170d] dark:text-[#f3efe7] text-base font-medium leading-normal">Senha</p>
                   </div>
                   <div className="flex w-full flex-1 items-stretch rounded-xl">
-                    <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1b170d] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dfcf] dark:border-[#4a412c] bg-background-light dark:bg-[#2c2415] focus:border-primary h-14 placeholder:text-[#9a804c] p-[15px] rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal" placeholder="Digite sua senha" type="password" />
-                    <div className="text-[#9a804c] flex border border-[#e7dfcf] dark:border-[#4a412c] bg-background-light dark:bg-[#2c2415] items-center justify-center pr-[15px] rounded-r-xl border-l-0 cursor-pointer">
-                      <span className="material-symbols-outlined">visibility</span>
-                    </div>
+                    <input
+                      className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#1b170d] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dfcf] dark:border-[#4a412c] bg-background-light dark:bg-[#2c2415] focus:border-primary h-14 placeholder:text-[#9a804c] p-[15px] rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal"
+                      placeholder="Digite sua senha"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="text-[#9a804c] flex border border-[#e7dfcf] dark:border-[#4a412c] bg-background-light dark:bg-[#2c2415] items-center justify-center pr-[15px] rounded-r-xl border-l-0 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined pl-2">
+                        {showPassword ? 'visibility_off' : 'visibility'}
+                      </span>
+                    </button>
                   </div>
                 </label>
               </div>
-              <button className="mt-4 flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-primary text-[#1b170d] text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors" type="submit">
-                <span className="truncate">Entrar</span>
+              <button
+                className="mt-4 flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-primary text-[#1b170d] text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors disabled:opacity-50"
+                type="submit"
+                disabled={loading}
+              >
+                <span className="truncate">{loading ? 'Entrando...' : 'Entrar'}</span>
               </button>
             </form>
           </div>
