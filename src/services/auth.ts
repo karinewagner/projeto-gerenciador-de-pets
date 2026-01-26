@@ -1,6 +1,8 @@
 import type { LoginCredentials, LoginResponse } from '../types/auth';
 
 const API_URL = 'https://pet-manager-api.geia.vip';
+const TOKEN_KEY = 'authToken';
+const USER_KEY = 'user';
 
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   const response = await fetch(`${API_URL}/autenticacao/login`, {
@@ -18,4 +20,17 @@ export async function login(credentials: LoginCredentials): Promise<LoginRespons
 
   const data: LoginResponse = await response.json();
   return data;
+}
+
+export function logout(): void {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+}
+
+export function isAuthenticated(): boolean {
+  return Boolean(localStorage.getItem(TOKEN_KEY));
+}
+
+export function getToken(): string | null {
+  return localStorage.getItem(TOKEN_KEY);
 }
