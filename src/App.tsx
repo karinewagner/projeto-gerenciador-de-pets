@@ -5,7 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import { HomePage } from './pages/Home';
 import { LoginPage } from './pages/Login';
-import DashboardPage from './pages/Dashboard';
+import { DashboardPage } from './pages/Dashboard';
 
 function App() {
   return (
