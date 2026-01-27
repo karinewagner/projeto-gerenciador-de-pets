@@ -6,7 +6,7 @@ import { pets } from '../../utils/pets';
 
 export function HomePage() {
   return (
-    <main className="flex flex-1 justify-center py-8">
+    <main className="flex flex-1 justify-center pt-8">
       <div className="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
         <div className="flex flex-col items-center text-center mb-8">
           <h1 className="text-[#1b170d] dark:text-white tracking-tight text-[32px] md:text-[42px] font-bold leading-tight pb-3">
@@ -21,7 +21,7 @@ export function HomePage() {
         <FilterButtons />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-          {pets.map((pet) => (
+          {pets.content.map((pet) => (
             <PetCard key={pet.id} pet={pet} />
           ))}
         </div>
