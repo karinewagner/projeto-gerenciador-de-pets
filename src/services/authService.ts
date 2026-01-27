@@ -4,7 +4,9 @@ const API_URL = 'https://pet-manager-api.geia.vip';
 const TOKEN_KEY = 'authToken';
 const USER_KEY = 'user';
 
-export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
+export async function login(
+  credentials: LoginCredentials
+): Promise<LoginResponse> {
   const response = await fetch(`${API_URL}/autenticacao/login`, {
     method: 'POST',
     headers: {
@@ -15,7 +17,9 @@ export async function login(credentials: LoginCredentials): Promise<LoginRespons
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData?.message || 'Falha no login. Verifique suas credenciais.');
+    throw new Error(
+      errorData?.message || 'Falha no login. Verifique suas credenciais.'
+    );
   }
 
   const data: LoginResponse = await response.json();
