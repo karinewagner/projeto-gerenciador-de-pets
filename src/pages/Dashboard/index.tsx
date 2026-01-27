@@ -26,8 +26,8 @@ export function DashboardPage() {
           </label>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {pets.map((pet) => (
-            <PetCard key={pet.name} pet={pet} />
+          {pets.content.map((pet) => (
+            <PetCard key={pet.nome} pet={pet} />
           ))}
         </div>
         <div className="flex items-center justify-center gap-2 mt-12 mb-10">
