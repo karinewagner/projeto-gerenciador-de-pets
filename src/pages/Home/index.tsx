@@ -1,4 +1,3 @@
-import { FilterButtons } from '../../components/FilterButtons';
 import { Pagination } from '../../components/Pagination';
 import { PetCard } from '../../components/PetCard';
 import { SearchBar } from '../../components/SearchBar';
@@ -18,7 +17,6 @@ export function HomePage() {
         </div>
 
         <SearchBar />
-        <FilterButtons />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
           {pets.content.map((pet) => (
