@@ -38,7 +38,7 @@ export function PetDetailPage() {
           <span className="material-symbols-outlined text-[#9a804c] text-sm">chevron_right</span>
           <span className="text-[#1b170d] dark:text-white text-sm md:text-base font-medium leading-normal">{pet.nome} - {pet.raca}</span>
         </nav>
-        <a href="/" className="inline-flex items-center gap-2 text-[#1b170d] dark:text-white font-semibold text-sm bg-white dark:bg-[#2d271a] px-4 py-2 rounded-lg border border-[#3a3428] hover:bg-[#f3efe7] dark:hover:bg-[#3a3428] transition-colors w-fit">
+        <a href="/" className="inline-flex items-center gap-2 text-[#1b170d] dark:text-white font-semibold text-sm bg-white dark:bg-[#2d271a] px-4 py-2 rounded-lg border border-primary/20 hover:border-primary dark:hover:bg-[#3a3428] transition-colors w-fit">
           <span className="material-symbols-outlined text-base">arrow_back</span>
           Voltar para o Início
         </a>
