@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { IPetContent } from "../../types/pets";
 
 interface PetInfoGridProps {
@@ -8,10 +9,18 @@ export function PetInfoGrid({ pet }: PetInfoGridProps) {
   return (
     <div className="flex flex-col lg:flex-row gap-8 mt-4">
       <div className="flex-1 space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-[#1b170d] dark:text-white tracking-light text-[32px] md:text-[40px] font-extrabold leading-tight">{pet.nome}</h1>
-          </div>
+        <div className="flex items-center gap-4">
+          <h1 className="text-[#1b170d] dark:text-white tracking-light text-[32px] md:text-[40px] font-extrabold leading-tight">
+            {pet.nome}
+          </h1>
+          <Link
+            to={`/pets/edit/${pet.id}`}
+            className="inline-flex items-center text-[#1b170d] dark:text-white bg-white dark:bg-[#2d271a] px-4 py-2 rounded-lg border border-primary/20 hover:border-primary transition-colors w-fit"
+          >
+            <span className="material-symbols-outlined text-xl">
+              edit
+            </span>
+          </Link>
         </div>
         <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 shadow-sm border border-[#f3efe7] dark:border-[#3a3428]">
           <div
