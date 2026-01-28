@@ -1,4 +1,6 @@
-export interface IPetResponsePage {
+import type { ITutorContent } from "./tutors";
+
+export interface IPetResponse {
     page: number,
     size: number,
     total: number,
@@ -11,7 +13,7 @@ export interface IPetContent {
     nome: string,
     raca: string,
     idade: number,
-    foto: IPetFoto
+    foto?: IPetFoto
 }
 
 export interface IPetFoto {
@@ -19,4 +21,21 @@ export interface IPetFoto {
     nome: string,
     contentType: string,
     url: string
+}
+
+export interface IPetPayload {
+    nome: string;
+    raca: string;
+    idade: number;
+}
+
+export interface GetPetsParams {
+    nome?: string;
+    raca?: string;
+    page: number;
+    size: number;
+}
+
+export interface IPetDetailsResponse extends IPetContent {
+    tutores: ITutorContent[];
 }
