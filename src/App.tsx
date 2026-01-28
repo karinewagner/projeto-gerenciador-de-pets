@@ -6,6 +6,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './pages/Login';
 import { DashboardPage } from './pages/Dashboard';
 import { PetDetailPage } from './pages/PetDetails';
+import { PetFormPage } from './pages/PetForm';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/pets/:petId" element={<PetDetailPage />} />
+          <Route path="/pets/edit/:id" element={<PetFormPage />} />
+          <Route path="/pets/new" element={<PetFormPage />} />
         </Route>
       </Route>
     </Routes>

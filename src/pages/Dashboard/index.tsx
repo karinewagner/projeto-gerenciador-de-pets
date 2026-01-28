@@ -63,7 +63,7 @@ export function DashboardPage() {
           </div>
 
           <button
-            onClick={() => navigate('/pets/novo')}
+            onClick={() => navigate('/pets/new')}
             className="flex h-10 items-center justify-center gap-x-2 rounded-xl bg-primary px-5 font-bold shadow-sm hover:opacity-90"
           >
             <span className="material-symbols-outlined text-[20px]">add</span>
