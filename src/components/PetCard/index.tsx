@@ -9,8 +9,8 @@ export function PetCard({ pet }: PetCardProps) {
     <Link to={`/pets/${pet.id}`} className="flex flex-col gap-3 pb-4 bg-white dark:bg-[#3a3225] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-[#f3efe7] dark:border-transparent">
       <div
         className="relative w-full aspect-square bg-center bg-no-repeat bg-cover"
-        data-alt={pet.foto.nome}
-        style={{ backgroundImage: `url("${pet.foto.url}")` }}
+        data-alt={pet?.foto?.nome}
+        style={{ backgroundImage: `url("${pet?.foto?.url}")` }}
       >
       </div>
       <div className="px-4 py-2">
