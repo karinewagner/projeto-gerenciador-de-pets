@@ -1,9 +1,8 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logout, isAuthenticated } from '../../services/authService';
 
 export function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   function handleLogout() {
     logout();
@@ -41,17 +40,7 @@ export function Header() {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-end">
-          {location.pathname === '/login' ? (
-            <Link to="/" className="flex size-10 items-center justify-center rounded-full border-2 border-primary/20 hover:border-primary transition-all text-[#1b170d] dark:text-[#f3efe7] cursor-pointer">
-              <span className="material-symbols-outlined">home</span>
-            </Link>
-          ) : (
-            <Link to="/login" className="flex size-10 items-center justify-center rounded-full border-2 border-primary/20 hover:border-primary transition-all text-[#1b170d] dark:text-[#f3efe7] cursor-pointer">
-              <span className="material-symbols-outlined">person</span>
-            </Link>
-          )}
-        </div>
+        null
       )}
     </header>
   );
