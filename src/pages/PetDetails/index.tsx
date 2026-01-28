@@ -5,7 +5,7 @@ import { getPetById } from '../../utils/pets';
 import type { IPetContent } from '../../types/pets';
 
 import { PetInfoGrid } from '../../components/PetInfoGrid';
-import { isAuthenticated } from '../../services/auth';
+import { isAuthenticated } from '../../services/authService';
 
 export function PetDetailPage() {
   const { petId } = useParams<{ petId: string }>();

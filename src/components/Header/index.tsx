@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { logout, isAuthenticated } from '../../services/auth';
+import { logout, isAuthenticated } from '../../services/authService';
 
 export function Header() {
   const navigate = useNavigate();
