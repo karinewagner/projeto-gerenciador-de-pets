@@ -16,7 +16,7 @@ export function PetInfoGrid({ pet }: PetInfoGridProps) {
         <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 shadow-sm border border-[#f3efe7] dark:border-[#3a3428]">
           <div
             className="w-full h-full bg-center bg-no-repeat bg-cover"
-            style={{ backgroundImage: `url("${pet.foto.url}")` }}
+            style={{ backgroundImage: `url("${pet?.foto?.url}")` }}
           ></div>
         </div>
       </div>
@@ -27,14 +27,14 @@ export function PetInfoGrid({ pet }: PetInfoGridProps) {
             <span className="text-[#9a804c] text-xs font-semibold uppercase tracking-wider">Raça</span>
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-[20px]">pets</span>
-              <span className="text-base font-bold">{pet.raca}</span>
+              <span className="text-base font-bold">{pet?.raca}</span>
             </div>
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-[#9a804c] text-xs font-semibold uppercase tracking-wider">Idade</span>
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
-              <span className="text-base font-bold">{pet.idade} Anos</span>
+              <span className="text-base font-bold">{pet?.idade} Anos</span>
             </div>
           </div>
         </div>
