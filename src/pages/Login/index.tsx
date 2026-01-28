@@ -18,9 +18,7 @@ export function LoginPage() {
     setError(null);
 
     try {
-      const data = await login({ username, password });
-      localStorage.setItem('authToken', data.access_token);
-      localStorage.setItem('user', username);
+      await login({ username, password });
       navigate('/');
     } catch (err: any) {
       setError(err.message || 'Ocorreu um erro inesperado.');
