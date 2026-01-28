@@ -21,7 +21,7 @@ export function Header() {
       {isAuthenticated() ? (
         <div className="flex items-center justify-end gap-8">
           <nav className="hidden md:flex items-center gap-6">
-            <Link className="text-sm font-bold text-primary border-b-2 border-primary pb-1" to="/dashboard">Pets</Link>
+            <Link className="text-sm font-bold text-primary border-b-2 border-primary pb-1" to="/">Pets</Link>
             <Link className="text-sm font-medium text-[#9a804c] hover:text-primary transition-colors" to="/tutors">Tutores</Link>
             <Link className="text-sm font-medium text-[#9a804c] hover:text-primary transition-colors" to="/linking">Vincular</Link>
           </nav>
