@@ -13,13 +13,13 @@ function App() {
       {/* Rotas públicas */}
       <Route element={<MainLayout />}>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/pets/:petId" element={<PetDetailPage />} />
       </Route>
 
       {/* Rotas privadas */}
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/pets/:petId" element={<PetDetailPage />} />
         </Route>
       </Route>
     </Routes>
