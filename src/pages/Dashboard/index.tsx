@@ -12,14 +12,14 @@ export function DashboardPage() {
   const navigate = useNavigate();
 
   const [pets, setPets] = useState<IPetContent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [nome, setNome] = useState('');
-  const [raca, setRaca] = useState('');
-  const [page, setPage] = useState(0);
-  const [size] = useState(10);
-  const [totalPages, setTotalPages] = useState(0);
+  const [nome, setNome] = useState<string>('');
+  const [raca, setRaca] = useState<string>('');
+  const [page, setPage] = useState<number>(0);
+  const [size] = useState<number>(10);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     setPage(0);
@@ -99,7 +99,7 @@ export function DashboardPage() {
           )}
 
           {!loading && !error && pets.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
               {pets.map((pet) => (
                 <PetCard key={pet.id} pet={pet} />
               ))}

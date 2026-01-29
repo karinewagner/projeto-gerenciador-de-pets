@@ -11,7 +11,7 @@ export function Pagination({
   onPageChange,
   maxVisible = 5,
 }: PaginationProps) {
-  if (totalPages <= 1) return null;
+  if (totalPages < 1) return null;
 
   const half = Math.floor(maxVisible / 2);
 
@@ -63,8 +63,8 @@ export function Pagination({
           key={p}
           onClick={() => onPageChange(p)}
           className={`flex size-10 items-center justify-center rounded-xl ${p === page
-              ? 'bg-primary font-bold'
-              : 'bg-white border'
+            ? 'bg-primary font-bold'
+            : 'bg-white border'
             }`}
         >
           {p + 1}
