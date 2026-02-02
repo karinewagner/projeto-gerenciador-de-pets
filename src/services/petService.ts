@@ -13,6 +13,9 @@ export async function createPet(
 ): Promise<IPetContent> {
     const response = await authFetch('/v1/pets', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
     });
 
@@ -52,6 +55,9 @@ export async function updatePet(
 ): Promise<IPetContent> {
     const response = await authFetch(`/v1/pets/${id}`, {
         method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
     });
 
@@ -75,7 +81,6 @@ export async function addPetPhoto(
 
     const response = await authFetch(`/v1/pets/${petId}/fotos`, {
         method: 'POST',
-        headers: {},
         body: formData,
     });
 

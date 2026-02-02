@@ -1,4 +1,3 @@
-// src/services/apiService.ts
 import { getToken, refreshToken, logout } from './authService';
 
 const API_URL = 'https://pet-manager-api.geia.vip';
@@ -8,25 +7,34 @@ export async function authFetch(
     options: RequestInit = {}
 ) {
     const token = getToken();
+    const isFormData = options.body instanceof FormData;
+
+    const headers: Record<string, string> = {
+        ...(options.headers as Record<string, string>),
+        Authorization: token ? `Bearer ${token}` : '',
+    };
+
+    if (!isFormData && options.body) {
+        headers['Content-Type'] = 'application/json';
+    }
 
     const response = await fetch(`${API_URL}${url}`, {
         ...options,
-        headers: {
-            ...(options.headers || {}),
-            Authorization: token ? `Bearer ${token}` : '',
-        },
+        headers,
     });
 
     if (response.status === 401) {
         try {
             const newToken = await refreshToken();
 
+            const retryHeaders: Record<string, string> = {
+                ...headers,
+                Authorization: `Bearer ${newToken}`,
+            };
+
             const retryResponse = await fetch(`${API_URL}${url}`, {
                 ...options,
-                headers: {
-                    ...(options.headers || {}),
-                    Authorization: `Bearer ${newToken}`,
-                },
+                headers: retryHeaders,
             });
 
             if (!retryResponse.ok) {
