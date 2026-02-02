@@ -90,8 +90,13 @@ export async function addPetPhoto(
 export async function removePetPhoto(
     petId: number,
     fotoId: number
-): Promise<void> {
-    await authFetch(`/v1/pets/${petId}/fotos/${fotoId}`, {
-        method: 'DELETE',
-    });
+): Promise<boolean> {
+    const response = await authFetch(
+        `/v1/pets/${petId}/fotos/${fotoId}`,
+        {
+            method: 'DELETE',
+        }
+    );
+
+    return response.ok;
 }

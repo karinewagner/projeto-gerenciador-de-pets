@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { addPetPhoto, createPet, getPetById, updatePet } from '../../services/petService';
-import { PetForm } from '../../components/PetForm';
+import {
+    createPet,
+    getPetById,
+    updatePet,
+    addPetPhoto,
+    removePetPhoto
+} from '../../services/petService';
+
 import type { IPetContent } from '../../types/pets';
+import { PetForm } from '../../components/PetForm';
 
 export function PetFormPage() {
     const navigate = useNavigate();
@@ -52,6 +59,25 @@ export function PetFormPage() {
         }
     }
 
+    async function handleRemovePhoto() {
+        if (!pet.foto?.id || !id) return;
+
+        try {
+            await removePetPhoto(Number(id), pet.foto.id);
+
+            setPet({
+                ...pet,
+                foto: undefined,
+            });
+
+            setPhotoFile(null);
+
+            navigate(`/pets/${id}`);
+        } catch (err: any) {
+            alert(err.message);
+        }
+    }
+
     useEffect(() => {
         if (!id) return;
 
@@ -87,6 +113,7 @@ export function PetFormPage() {
                 setPhotoFile={setPhotoFile}
                 onCancel={() => navigate(-1)}
                 isEditing={isEditing}
+                onRemovePhoto={handleRemovePhoto}
             />
         </main>
     );

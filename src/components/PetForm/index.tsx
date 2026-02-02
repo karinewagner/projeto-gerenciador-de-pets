@@ -11,9 +11,19 @@ interface Props {
     setPhotoFile: (file: File) => void;
     onSave: (pet: IPetContent) => void;
     onCancel: () => void;
+    onRemovePhoto: () => void;
 }
 
-export function PetForm({ pet, onChange, onSave, photoFile, setPhotoFile, onCancel, isEditing }: Props) {
+export function PetForm({
+    pet,
+    isEditing,
+    photoFile,
+    onChange,
+    onSave,
+    setPhotoFile,
+    onCancel,
+    onRemovePhoto
+}: Props) {
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         onSave(pet);
@@ -29,6 +39,7 @@ export function PetForm({ pet, onChange, onSave, photoFile, setPhotoFile, onCanc
                 photoFile={photoFile}
                 fotoUrl={pet.foto?.url}
                 onSelect={setPhotoFile}
+                onRemovePhoto={onRemovePhoto}
             />
 
             <form className="space-y-6 mt-10" onSubmit={handleSubmit}>
