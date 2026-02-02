@@ -1,13 +1,20 @@
 import { useRef } from 'react';
 
 interface Props {
+    isSaving: boolean;
     photoFile: File | null;
     fotoUrl?: string;
     onSelect: (file: File) => void;
     onRemovePhoto: () => void;
 }
 
-export function PetPhotoUpload({ photoFile, fotoUrl, onSelect, onRemovePhoto }: Props) {
+export function PetPhotoUpload({
+    isSaving,
+    photoFile,
+    fotoUrl,
+    onSelect,
+    onRemovePhoto
+}: Props) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const previewUrl = photoFile
@@ -21,9 +28,6 @@ export function PetPhotoUpload({ photoFile, fotoUrl, onSelect, onRemovePhoto }: 
         onSelect(file);
     }
 
-    console.log('previewUrl', previewUrl);
-
-
     return (
         <div className="flex flex-col items-center gap-4">
             <input
@@ -32,6 +36,7 @@ export function PetPhotoUpload({ photoFile, fotoUrl, onSelect, onRemovePhoto }: 
                 accept="image/*"
                 hidden
                 onChange={handleFileChange}
+                disabled={isSaving}
             />
 
             <div
@@ -60,6 +65,7 @@ export function PetPhotoUpload({ photoFile, fotoUrl, onSelect, onRemovePhoto }: 
 
             {fotoUrl && onRemovePhoto ? (
                 <button
+                    disabled={isSaving}
                     type="button"
                     onClick={onRemovePhoto}
                     className="text-red-600 text-sm font-semibold hover:underline"

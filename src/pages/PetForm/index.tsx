@@ -18,6 +18,7 @@ export function PetFormPage() {
 
     const isEditing = Boolean(id);
 
+    const [isSaving, setIsSaving] = useState<boolean>(false);
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [pet, setPet] = useState<IPetContent>({
         id: 0,
@@ -33,7 +34,11 @@ export function PetFormPage() {
     });
 
     async function handleSave(updatedPet: IPetContent) {
+        if (isSaving) return;
+
         try {
+            setIsSaving(true);
+
             if (photoFile && id) {
                 await addPetPhoto(Number(id), photoFile);
             }
@@ -44,7 +49,6 @@ export function PetFormPage() {
                     raca: updatedPet.raca,
                     idade: updatedPet.idade,
                 });
-
             } else {
                 await updatePet(Number(id), {
                     nome: updatedPet.nome,
@@ -56,6 +60,8 @@ export function PetFormPage() {
             navigate(-1);
         } catch (err: any) {
             alert(err.message);
+        } finally {
+            setIsSaving(false);
         }
     }
 
@@ -107,12 +113,13 @@ export function PetFormPage() {
         <main className="flex-1 flex justify-center py-10 px-4">
             <PetForm
                 pet={pet}
+                isEditing={isEditing}
+                isSaving={isSaving}
                 onChange={setPet}
                 onSave={handleSave}
                 photoFile={photoFile}
                 setPhotoFile={setPhotoFile}
                 onCancel={() => navigate(-1)}
-                isEditing={isEditing}
                 onRemovePhoto={handleRemovePhoto}
             />
         </main>

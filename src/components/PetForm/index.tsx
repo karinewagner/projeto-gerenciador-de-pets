@@ -6,6 +6,7 @@ import type { IPetContent } from '../../types/pets';
 interface Props {
     pet: IPetContent;
     isEditing: boolean;
+    isSaving: boolean;
     photoFile: File | null;
     onChange: (pet: IPetContent) => void;
     setPhotoFile: (file: File) => void;
@@ -17,6 +18,7 @@ interface Props {
 export function PetForm({
     pet,
     isEditing,
+    isSaving,
     photoFile,
     onChange,
     onSave,
@@ -24,8 +26,10 @@ export function PetForm({
     onCancel,
     onRemovePhoto
 }: Props) {
+
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+        if (isSaving) return;
         onSave(pet);
     }
 
@@ -36,6 +40,7 @@ export function PetForm({
             </h1>
 
             <PetPhotoUpload
+                isSaving={isSaving}
                 photoFile={photoFile}
                 fotoUrl={pet.foto?.url}
                 onSelect={setPhotoFile}
@@ -45,24 +50,30 @@ export function PetForm({
             <form className="space-y-6 mt-10" onSubmit={handleSubmit}>
                 <Input
                     label="Nome do Pet"
+                    disabled={isSaving}
                     value={pet.nome}
                     onChange={(v) => onChange({ ...pet, nome: v })}
                 />
 
                 <Input
                     label="Raça"
+                    disabled={isSaving}
                     value={pet.raca}
                     onChange={(v) => onChange({ ...pet, raca: v })}
                 />
 
                 <Input
                     label="Idade (anos)"
+                    disabled={isSaving}
                     type="number"
                     value={pet.idade}
                     onChange={(v) => onChange({ ...pet, idade: Number(v) })}
                 />
 
-                <PetFormActions onCancel={onCancel} />
+                <PetFormActions
+                    isSaving={isSaving}
+                    onCancel={onCancel}
+                />
             </form>
         </div>
     );
@@ -71,13 +82,15 @@ export function PetForm({
 function Input({
     label,
     value,
-    onChange,
     type = 'text',
+    disabled = false,
+    onChange,
 }: {
     label: string;
     value: any;
     type?: string;
-    onChange: (v: string) => void;
+    disabled?: boolean;
+    onChange: (v: string) => void
 }) {
     return (
         <div className="flex flex-col gap-2">
@@ -85,6 +98,7 @@ function Input({
             <input
                 type={type}
                 value={value}
+                disabled={disabled}
                 onChange={(e) => onChange(e.target.value)}
                 className="h-14 rounded-xl px-4 border bg-[#fcfaf8] dark:bg-[#221c10]"
             />

@@ -10,7 +10,7 @@ export function PetDetailPage() {
   const { petId } = useParams<{ petId: string }>();
 
   const [pet, setPet] = useState<IPetDetailsResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function loadPet() {
