@@ -6,12 +6,14 @@ import type { IPetContent } from '../../types/pets';
 interface Props {
     pet: IPetContent;
     isEditing: boolean;
+    photoFile: File | null;
     onChange: (pet: IPetContent) => void;
+    setPhotoFile: (file: File) => void;
     onSave: (pet: IPetContent) => void;
     onCancel: () => void;
 }
 
-export function PetForm({ pet, onChange, onSave, onCancel, isEditing }: Props) {
+export function PetForm({ pet, onChange, onSave, photoFile, setPhotoFile, onCancel, isEditing }: Props) {
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         onSave(pet);
@@ -24,9 +26,9 @@ export function PetForm({ pet, onChange, onSave, onCancel, isEditing }: Props) {
             </h1>
 
             <PetPhotoUpload
-                petId={pet.id!}
+                photoFile={photoFile}
                 fotoUrl={pet.foto?.url}
-                onUploaded={(url) => onChange({ ...pet, foto: { ...pet.foto!, url } })}
+                onSelect={setPhotoFile}
             />
 
             <form className="space-y-6 mt-10" onSubmit={handleSubmit}>

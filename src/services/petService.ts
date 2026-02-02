@@ -77,7 +77,7 @@ export async function addPetPhoto(
     file: File
 ): Promise<IPetFoto> {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('foto', file);
 
     const response = await authFetch(`/v1/pets/${petId}/fotos`, {
         method: 'POST',

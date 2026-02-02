@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { getPetById, updatePet } from '../../services/petService';
+import { addPetPhoto, createPet, getPetById, updatePet } from '../../services/petService';
 import { PetForm } from '../../components/PetForm';
 import type { IPetContent } from '../../types/pets';
 
@@ -11,6 +11,7 @@ export function PetFormPage() {
 
     const isEditing = Boolean(id);
 
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [pet, setPet] = useState<IPetContent>({
         id: 0,
         nome: '',
@@ -25,22 +26,35 @@ export function PetFormPage() {
     });
 
     async function handleSave(updatedPet: IPetContent) {
-        if (!id) return;
-
         try {
-            await updatePet(Number(id), {
-                nome: updatedPet.nome,
-                raca: updatedPet.raca,
-                idade: updatedPet.idade,
-            });
+            if (photoFile && id) {
+                await addPetPhoto(Number(id), photoFile);
+            }
 
-            navigate('-1');
+            if (!id) {
+                await createPet({
+                    nome: updatedPet.nome,
+                    raca: updatedPet.raca,
+                    idade: updatedPet.idade,
+                });
+
+            } else {
+                await updatePet(Number(id), {
+                    nome: updatedPet.nome,
+                    raca: updatedPet.raca,
+                    idade: updatedPet.idade,
+                });
+            }
+
+            navigate(-1);
         } catch (err: any) {
             alert(err.message);
         }
     }
 
     useEffect(() => {
+        if (!id) return;
+
         async function loadPet() {
 
             try {
@@ -69,6 +83,8 @@ export function PetFormPage() {
                 pet={pet}
                 onChange={setPet}
                 onSave={handleSave}
+                photoFile={photoFile}
+                setPhotoFile={setPhotoFile}
                 onCancel={() => navigate(-1)}
                 isEditing={isEditing}
             />
