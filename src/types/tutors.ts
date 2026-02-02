@@ -1,3 +1,5 @@
+import type { IPetContent } from "./pets";
+
 export interface ITutorsResponse {
     page: number,
     size: number,
@@ -21,4 +23,20 @@ export interface ITutorFoto {
     nome: string,
     contentType: string,
     url: string
+}
+
+export interface ITutorPayload {
+    nome: string;
+    email?: string;
+    telefone?: string;
+}
+
+export interface GetTutorsParams {
+    nome?: string;
+    page: number;
+    size: number;
+}
+
+export interface ITutorDetailsResponse extends ITutorContent {
+    pets: IPetContent[];
 }
