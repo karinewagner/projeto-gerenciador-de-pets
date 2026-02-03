@@ -14,7 +14,7 @@ export function DashboardLayout({
     children,
 }: DashboardLayoutProps) {
     return (
-        <main className="flex flex-1 justify-center pt-8">
+        <main className="flex flex-1 justify-center pt-5 pb-5">
             <div className="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
                 <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                     <div>

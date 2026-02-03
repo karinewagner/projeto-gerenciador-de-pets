@@ -53,7 +53,6 @@ export function DashboardPetsPage() {
                 )}
             />
 
-
             <Pagination
                 page={page}
                 totalPages={totalPages}
