@@ -46,7 +46,7 @@ export function PetDetailPage() {
         <div className="text-center">
           <h1 className="text-3xl font-bold">Pet não encontrado</h1>
           <Link
-            to="/"
+            to="/pets"
             className="text-primary hover:underline mt-6 inline-block"
           >
             Voltar para a página inicial
@@ -62,7 +62,7 @@ export function PetDetailPage() {
         <nav className="flex flex-wrap gap-2 py-4 items-center">
           <Link
             className="text-[#9a804c] text-sm md:text-base font-medium hover:underline"
-            to="/"
+            to="/pets"
           >
             Início
           </Link>
@@ -77,7 +77,7 @@ export function PetDetailPage() {
         </nav>
 
         <Link
-          to="/"
+          to="/pets"
           className="inline-flex items-center gap-2 text-[#1b170d] dark:text-white font-semibold text-sm bg-white dark:bg-[#2d271a] px-4 py-2 rounded-lg border border-primary/20 hover:border-primary transition-colors w-fit"
         >
           <span className="material-symbols-outlined text-base">

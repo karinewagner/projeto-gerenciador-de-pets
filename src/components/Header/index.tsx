@@ -11,7 +11,7 @@ export function Header() {
 
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f3efe7] dark:border-[#3a3225] px-6 md:px-20 py-4 bg-white dark:bg-background-dark sticky top-0 z-50">
-      <Link to="/" className="flex items-center gap-4 text-[#1b170d] dark:text-[#f3efe7]">
+      <Link to="/pets" className="flex items-center gap-4 text-[#1b170d] dark:text-[#f3efe7]">
         <div className="size-8 text-primary">
           <span className="material-symbols-outlined text-3xl">pets</span>
         </div>
@@ -21,7 +21,7 @@ export function Header() {
       {isAuthenticated() ? (
         <div className="flex items-center justify-end gap-8">
           <nav className="hidden md:flex items-center gap-6">
-            <Link className="text-sm font-bold text-primary border-b-2 border-primary pb-1" to="/">Pets</Link>
+            <Link className="text-sm font-bold text-primary border-b-2 border-primary pb-1" to="/pets">Pets</Link>
             <Link className="text-sm font-medium text-[#9a804c] hover:text-primary transition-colors" to="/tutors">Tutores</Link>
             <Link className="text-sm font-medium text-[#9a804c] hover:text-primary transition-colors" to="/linking">Vincular</Link>
           </nav>

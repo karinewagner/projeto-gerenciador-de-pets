@@ -19,7 +19,7 @@ export function LoginPage() {
 
     try {
       await login({ username, password });
-      navigate('/');
+      navigate("/pets");
     } catch (err: any) {
       setError(err.message || 'Ocorreu um erro inesperado.');
       setLoading(false);
