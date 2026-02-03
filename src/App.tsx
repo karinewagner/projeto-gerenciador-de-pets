@@ -10,6 +10,7 @@ import { PetDetailPage } from './pages/PetDetailPage';
 import { PetFormPage } from './pages/PetFormPage';
 import { TutorDetailPage } from './pages/TutorDetailPage';
 import { TutorFormPage } from './pages/TutorFormPage';
+import { ContactsPage } from './pages/ContactsPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/tutors/:tutorId" element={<TutorDetailPage />} />
           <Route path="/tutors/edit/:id" element={<TutorFormPage />} />
           <Route path="/tutors/new" element={<TutorFormPage />} />
+          <Route path="/contacts" element={<ContactsPage />} />
         </Route>
       </Route>
     </Routes>
