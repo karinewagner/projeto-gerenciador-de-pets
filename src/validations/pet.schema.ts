@@ -16,5 +16,4 @@ export const petSchema = z.object({
         .number()
         .int('Idade deve ser um número inteiro')
         .min(0, 'Idade não pode ser negativa')
-        .max(30, 'Idade inválida'),
 });
