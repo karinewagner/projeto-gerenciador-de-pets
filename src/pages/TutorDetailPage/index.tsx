@@ -4,6 +4,12 @@ import { useParams, Link } from 'react-router-dom';
 import { getTutorById } from '../../services/tutorService';
 import type { ITutorDetailsResponse } from '../../types/tutors';
 
+import {
+    maskCPF,
+    maskPhone,
+    maskEmail,
+} from '../../utils/masks';
+
 import { DetailLayout } from '../../components/DetailLayout';
 import { DetailInfoGrid, type InfoItem } from '../../components/DetailInfoGrid';
 
@@ -16,23 +22,23 @@ export function TutorDetailPage() {
         {
             label: 'CPF',
             icon: 'person',
-            value: tutor?.cpf,
+            value: maskCPF(tutor?.cpf),
         },
         {
             label: 'Telefone',
             icon: 'phone',
-            value: tutor?.telefone,
+            value: maskPhone(tutor?.telefone),
         },
         {
             label: 'Email',
             icon: 'email',
-            value: tutor?.email,
+            value: maskEmail(tutor?.email),
         },
         {
             label: 'Endereço',
             icon: 'location_on',
             value: tutor?.endereco,
-        }
+        },
     ];
 
     useEffect(() => {
