@@ -12,7 +12,7 @@ export function TutorCard({ tutor }: TutorCardProps) {
             imageUrl={tutor.foto?.url}
             imageAlt={tutor.foto?.nome}
             title={tutor.nome}
-            badge="Tutor"
+            badge={undefined}
             subtitle={tutor.email}
             description={tutor.telefone}
         />
