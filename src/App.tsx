@@ -6,8 +6,9 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './pages/Login';
 import { DashboardPetsPage } from './pages/DashboardPetsPage';
 import { DashboardTutorsPage } from './pages/DashboardTutorsPage';
-import { PetDetailPage } from './pages/PetDetails';
+import { PetDetailPage } from './pages/PetDetailPage';
 import { PetFormPage } from './pages/PetForm';
+import { TutorDetailPage } from './pages/TutorDetailPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/pets/edit/:id" element={<PetFormPage />} />
           <Route path="/pets/new" element={<PetFormPage />} />
           <Route path="/tutors" element={<DashboardTutorsPage />} />
+          <Route path="/tutors/:tutorId" element={<TutorDetailPage />} />
         </Route>
       </Route>
     </Routes>
