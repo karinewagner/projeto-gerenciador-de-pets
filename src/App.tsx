@@ -7,8 +7,9 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardPetsPage } from './pages/DashboardPetsPage';
 import { DashboardTutorsPage } from './pages/DashboardTutorsPage';
 import { PetDetailPage } from './pages/PetDetailPage';
-import { PetFormPage } from './pages/PetForm';
+import { PetFormPage } from './pages/PetFormPage';
 import { TutorDetailPage } from './pages/TutorDetailPage';
+import { TutorFormPage } from './pages/TutorFormPage';
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           <Route path="/pets/new" element={<PetFormPage />} />
           <Route path="/tutors" element={<DashboardTutorsPage />} />
           <Route path="/tutors/:tutorId" element={<TutorDetailPage />} />
+          <Route path="/tutors/edit/:id" element={<TutorFormPage />} />
+          <Route path="/tutors/new" element={<TutorFormPage />} />
         </Route>
       </Route>
     </Routes>
