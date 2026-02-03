@@ -46,7 +46,6 @@ export function DashboardTutorsPage() {
                 loading={loading}
                 error={error}
                 emptyMessage="Nenhum tutor cadastrado."
-                gridClassName="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                 renderItem={(tutor) => (
                     <TutorCard key={tutor.id} tutor={tutor} />
                 )}
