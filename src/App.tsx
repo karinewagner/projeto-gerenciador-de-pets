@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { MainLayout } from './components/MainLayout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
-import { LoginPage } from './pages/Login';
+import { LoginPage } from './pages/LoginPage';
 import { DashboardPetsPage } from './pages/DashboardPetsPage';
 import { DashboardTutorsPage } from './pages/DashboardTutorsPage';
 import { PetDetailPage } from './pages/PetDetailPage';
