@@ -14,7 +14,7 @@ export interface ITutorContent {
     email: string,
     telefone: string,
     endereco: string,
-    cpf: number,
+    cpf: string,
     foto?: ITutorFoto
 }
 
@@ -27,8 +27,10 @@ export interface ITutorFoto {
 
 export interface ITutorPayload {
     nome: string;
-    email?: string;
-    telefone?: string;
+    email: string;
+    telefone: string;
+    endereco: string;
+    cpf: string;
 }
 
 export interface GetTutorsParams {
@@ -40,3 +42,11 @@ export interface GetTutorsParams {
 export interface ITutorDetailsResponse extends ITutorContent {
     pets: IPetContent[];
 }
+
+export type TutorFormErrors = {
+    nome?: string[];
+    cpf?: string[];
+    email?: string[];
+    telefone?: string[];
+    endereco?: string[];
+};
