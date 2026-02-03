@@ -1,5 +1,5 @@
 interface PaginationProps {
-  page: number;          // zero-based
+  page: number;
   totalPages: number;
   onPageChange: (page: number) => void;
   maxVisible?: number;
@@ -18,13 +18,11 @@ export function Pagination({
   let start = Math.max(0, page - half);
   let end = Math.min(totalPages - 1, page + half);
 
-  // Ajusta quando está no começo
   if (page <= half) {
     start = 0;
     end = Math.min(totalPages - 1, maxVisible - 1);
   }
 
-  // Ajusta quando está no final
   if (page + half >= totalPages) {
     start = Math.max(0, totalPages - maxVisible);
     end = totalPages - 1;
@@ -36,8 +34,7 @@ export function Pagination({
   }
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-12 mb-10 flex-wrap">
-      {/* Anterior */}
+    <div className="flex items-center justify-center gap-2 mt-6 flex-wrap">
       <button
         disabled={page === 0}
         onClick={() => onPageChange(page - 1)}
@@ -83,7 +80,6 @@ export function Pagination({
         </>
       )}
 
-      {/* Próximo */}
       <button
         disabled={page === totalPages - 1}
         onClick={() => onPageChange(page + 1)}
