@@ -4,8 +4,8 @@ import type {
     ITutorsResponse,
     ITutorPayload,
     ITutorFoto,
+    ITutorDetailsResponse,
     GetTutorsParams,
-
 } from '../types/tutors';
 
 export async function createTutor(
@@ -37,8 +37,7 @@ export async function getTutors(
 
 export async function getTutorById(
     id: number
-): Promise<ITutorContent> // ??????? 
-{
+): Promise<ITutorDetailsResponse> {
     const response = await authFetch(`/v1/tutores/${id}`, {
         method: 'GET',
     });
