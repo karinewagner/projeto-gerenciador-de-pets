@@ -1,22 +1,26 @@
-import { PetPhotoUpload } from '../PetPhotoUpload';
-import { PetFormActions } from '../PetFormActions';
+import { useState } from 'react';
 
-import type { IPetContent } from '../../types/pets';
+import type { IPetContent, PetFormErrors } from '../../types/pets';
+import { petSchema } from '../../validations/pet.schema';
+
+import { FormInput } from '../FormInput';
+import { FormActions } from '../FormActions';
+import { PhotoUpload } from '../PhotoUpload';
 
 interface Props {
-    pet: IPetContent;
+    entity: IPetContent;
     isEditing: boolean;
     isSaving: boolean;
     photoFile: File | null;
-    onChange: (pet: IPetContent) => void;
-    setPhotoFile: (file: File) => void;
-    onSave: (pet: IPetContent) => void;
-    onCancel: () => void;
+    setPhotoFile: (file: File | null) => void;
     onRemovePhoto: () => void;
+    onChange: (pet: IPetContent) => void;
+    onSave: any;
+    onCancel: () => void;
 }
 
 export function PetForm({
-    pet,
+    entity: pet,
     isEditing,
     isSaving,
     photoFile,
@@ -26,87 +30,79 @@ export function PetForm({
     onCancel,
     onRemovePhoto
 }: Props) {
+    const [errors, setErrors] = useState<PetFormErrors>({});
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        if (isSaving) return;
-        onSave(pet);
+
+        const result = petSchema.safeParse({
+            nome: pet.nome,
+            raca: pet.raca,
+            idade: pet.idade,
+        });
+
+        if (!result.success) {
+            const fieldErrors =
+                result.error.flatten((issue) => issue.message).fieldErrors;
+
+            setErrors(fieldErrors);
+            return;
+        }
+
+        onSave(result.data);
     }
 
     return (
-        <div className="max-w-[800px] w-full bg-white dark:bg-[#2d2618] rounded-xl border p-8">
+        <div className="max-w-[800px] w-full bg-white rounded-xl border p-8">
             <h1 className="text-2xl font-bold text-center mb-8">
                 {isEditing ? 'Editar Pet' : 'Cadastrar Pet'}
             </h1>
 
-            {
-                isEditing && (
-                    <PetPhotoUpload
-                        isSaving={isSaving}
-                        photoFile={photoFile}
-                        fotoUrl={pet.foto?.url}
-                        onSelect={setPhotoFile}
-                        onRemovePhoto={onRemovePhoto}
-                    />
-                )
-            }
+            {isEditing && (
+                <PhotoUpload
+                    isSaving={isSaving}
+                    file={photoFile}
+                    imageUrl={pet.foto?.url}
+                    onSelect={setPhotoFile}
+                    onRemove={onRemovePhoto}
+                    emptyLabel="Adicionar foto do pet"
+                />
+            )}
 
-
-            <form className="space-y-6 mt-10" onSubmit={handleSubmit}>
-                <Input
-                    label="Nome do Pet"
-                    disabled={isSaving}
+            <form
+                className="space-y-6 mt-10"
+                onSubmit={handleSubmit}
+            >
+                <FormInput
+                    label="Nome"
                     value={pet.nome}
+                    disabled={isSaving}
+                    error={errors.nome?.[0]}
                     onChange={(v) => onChange({ ...pet, nome: v })}
                 />
 
-                <Input
+                <FormInput
                     label="Raça"
-                    disabled={isSaving}
                     value={pet.raca}
+                    disabled={isSaving}
+                    error={errors.raca?.[0]}
                     onChange={(v) => onChange({ ...pet, raca: v })}
                 />
 
-                <Input
-                    label="Idade (anos)"
-                    disabled={isSaving}
+                <FormInput
+                    label="Idade"
                     type="number"
                     value={pet.idade}
+                    disabled={isSaving}
+                    error={errors.idade?.[0]}
                     onChange={(v) => onChange({ ...pet, idade: Number(v) })}
                 />
 
-                <PetFormActions
+                <FormActions
                     isSaving={isSaving}
                     onCancel={onCancel}
                 />
             </form>
-        </div>
-    );
-}
-
-function Input({
-    label,
-    value,
-    type = 'text',
-    disabled = false,
-    onChange,
-}: {
-    label: string;
-    value: any;
-    type?: string;
-    disabled?: boolean;
-    onChange: (v: string) => void
-}) {
-    return (
-        <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold">{label}</label>
-            <input
-                type={type}
-                value={value}
-                disabled={disabled}
-                onChange={(e) => onChange(e.target.value)}
-                className="h-14 rounded-xl px-4 border bg-[#fcfaf8] dark:bg-[#221c10]"
-            />
         </div>
     );
 }
