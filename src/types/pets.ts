@@ -39,3 +39,9 @@ export interface GetPetsParams {
 export interface IPetDetailsResponse extends IPetContent {
     tutores: ITutorContent[];
 }
+
+export type PetFormErrors = {
+    nome?: string[];
+    raca?: string[];
+    idade?: string[];
+};
