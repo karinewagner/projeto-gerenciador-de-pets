@@ -4,9 +4,10 @@ import { MainLayout } from './components/MainLayout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 import { LoginPage } from './pages/Login';
-import { DashboardPage } from './pages/Dashboard';
+import { DashboardPetsPage } from './pages/DashboardPetsPage';
 import { PetDetailPage } from './pages/PetDetails';
 import { PetFormPage } from './pages/PetForm';
+
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       {/* Rotas privadas */}
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/pets" element={<DashboardPetsPage />} />
           <Route path="/pets/:petId" element={<PetDetailPage />} />
           <Route path="/pets/edit/:id" element={<PetFormPage />} />
           <Route path="/pets/new" element={<PetFormPage />} />
