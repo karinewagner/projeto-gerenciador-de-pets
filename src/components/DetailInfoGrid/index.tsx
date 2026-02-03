@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import type { ITutorContent } from '../../types/tutors';
+
 export interface InfoItem {
     label: string;
     icon: string;
@@ -10,16 +12,16 @@ interface DetailInfoGridProps {
     title: string;
     imageUrl?: string;
     editTo: string;
-    mainInfo: React.ReactNode;
     sideInfo: InfoItem[];
+    tutorInfo: ITutorContent[] | null;
 }
 
 export function DetailInfoGrid({
     title,
     imageUrl,
     editTo,
-    mainInfo,
     sideInfo,
+    tutorInfo,
 }: DetailInfoGridProps) {
     return (
         <div className="flex flex-col lg:flex-row gap-8 mt-4">
@@ -55,8 +57,6 @@ export function DetailInfoGrid({
                         />
                     )}
                 </div>
-
-                {mainInfo}
             </div>
 
             <aside className="w-full lg:w-[360px] space-y-6">
@@ -81,6 +81,26 @@ export function DetailInfoGrid({
                         ))}
                     </div>
                 </aside>
+                {
+                    tutorInfo && tutorInfo.length > 0 && (
+                        <aside className="w-full lg:w-[360px] space-y-6">
+                            <div className="bg-white dark:bg-[#1a150a] p-4 rounded-2xl shadow-sm border border-[#f3efe7] dark:border-[#3a3428] sticky top-24">
+                                <h3 className="text-lg font-bold mb-6">Contato do Tutor(es)</h3>
+                                <div className="flex flex-col gap-4 mb-6">
+                                    {tutorInfo.map((tutor) => (
+                                        <div key={tutor.id} className="flex flex-col">
+                                            <h4 className="font-bold text-base">{tutor.nome}</h4>
+                                            <div className="flex items-center gap-3 p-3 text-[#9a804c] text-sm">
+                                                <span className="material-symbols-outlined text-primary">call</span>
+                                                <span className="font-semibold">{tutor.telefone}</span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </aside>
+                    )
+                }
             </aside>
         </div>
     );

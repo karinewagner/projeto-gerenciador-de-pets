@@ -76,8 +76,8 @@ export function TutorDetailPage() {
                     title={tutor.nome}
                     imageUrl={tutor.foto?.url}
                     editTo={`/tutors/edit/${tutor.id}`}
-                    mainInfo={null}
                     sideInfo={tutorInfo}
+                    tutorInfo={null}
                 />
             )}
         </DetailLayout>

@@ -67,8 +67,8 @@ export function PetDetailPage() {
                     title={pet.nome}
                     imageUrl={pet.foto?.url}
                     editTo={`/pets/edit/${pet.id}`}
-                    mainInfo={null}
                     sideInfo={petInfo}
+                    tutorInfo={pet?.tutores}
                 />
             )}
         </DetailLayout>
