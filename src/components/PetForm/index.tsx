@@ -39,13 +39,18 @@ export function PetForm({
                 {isEditing ? 'Editar Pet' : 'Cadastrar Pet'}
             </h1>
 
-            <PetPhotoUpload
-                isSaving={isSaving}
-                photoFile={photoFile}
-                fotoUrl={pet.foto?.url}
-                onSelect={setPhotoFile}
-                onRemovePhoto={onRemovePhoto}
-            />
+            {
+                isEditing && (
+                    <PetPhotoUpload
+                        isSaving={isSaving}
+                        photoFile={photoFile}
+                        fotoUrl={pet.foto?.url}
+                        onSelect={setPhotoFile}
+                        onRemovePhoto={onRemovePhoto}
+                    />
+                )
+            }
+
 
             <form className="space-y-6 mt-10" onSubmit={handleSubmit}>
                 <Input
