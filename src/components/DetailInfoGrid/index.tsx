@@ -124,7 +124,7 @@ export function DetailInfoGrid({
                                 <h3 className="text-lg font-bold mb-6">Pet(s) vinculado(s)</h3>
                                 <div className="flex flex-col gap-4 mb-6 max-h-[200px] overflow-y-auto">
                                     {onRemovePet && petInfo.map((pet) => (
-                                        <div className="flex items-center gap-3 p-3 ">
+                                        <div key={pet.id} className="flex items-center gap-3 p-3 ">
                                             <span className="material-symbols-outlined text-primary">pets</span>
                                             <span className="font-bold text-base">{pet.nome}</span>
                                             <span className="font-semibold text-[#9a804c] text-sm">{pet.raca}</span>
