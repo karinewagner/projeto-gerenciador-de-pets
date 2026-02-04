@@ -96,3 +96,25 @@ export async function removeTutorPhoto(
 
     return response.ok;
 }
+
+export async function linkPetToTutor(
+    tutorId: number,
+    petId: number
+): Promise<boolean> {
+    const response = await authFetch(`/v1/tutores/${tutorId}/pets/${petId}`, {
+        method: 'POST',
+    });
+
+    return response.ok;
+}
+
+export async function unlinkPetFromTutor(
+    tutorId: number,
+    petId: number
+): Promise<boolean> {
+    const response = await authFetch(`/v1/tutores/${tutorId}/pets/${petId}`, {
+        method: 'DELETE',
+    });
+
+    return response.ok;
+}
