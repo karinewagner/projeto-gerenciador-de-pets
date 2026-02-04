@@ -31,7 +31,7 @@ export function Header() {
             <NavLink className={getLinkClassName} to="/pets">Pets</NavLink>
             <NavLink className={getLinkClassName} to="/tutors">Tutores</NavLink>
             <NavLink className={getLinkClassName} to="/linking">Vincular</NavLink>
-            <NavLink className={getLinkClassName} to="/contacts">Contatosr</NavLink>
+            <NavLink className={getLinkClassName} to="/contacts">Contatos</NavLink>
           </nav>
 
           <div className="flex items-center gap-4">
