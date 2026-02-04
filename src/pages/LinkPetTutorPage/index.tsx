@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { usePets } from '../../hooks/usePets';
 import { useTutors } from '../../hooks/useTutors';
+import { linkPetToTutor } from '../../services/tutorService';
 
 import type { IPetContent } from '../../types/pets';
 import type { ITutorContent } from '../../types/tutors';
@@ -11,11 +12,11 @@ import { Pagination } from '../../components/Pagination';
 export function LinkPetTutorPage() {
     const [selectedPet, setSelectedPet] = useState<IPetContent | null>(null);
     const [selectedTutor, setSelectedTutor] = useState<ITutorContent | null>(null);
+    const [linking, setLinking] = useState<boolean>(false);
 
-    const [petSearch, setPetSearch] = useState('');
-    const [tutorSearch, setTutorSearch] = useState('');
+    const [petSearch, setPetSearch] = useState<string>('');
+    const [tutorSearch, setTutorSearch] = useState<string>('');
 
-    // 🔹 Hooks da API
     const {
         data: pets,
         loading: petsLoading,
@@ -31,6 +32,26 @@ export function LinkPetTutorPage() {
         totalPages: tutorTotalPages,
         setPage: setTutorPage,
     } = useTutors(tutorSearch);
+
+    async function handleLinkPetTutor() {
+        if (!selectedPet || !selectedTutor) return;
+
+        try {
+            setLinking(true);
+
+            await linkPetToTutor(selectedTutor.id, selectedPet.id);
+
+            alert('Pet vinculado ao tutor com sucesso!');
+
+            setSelectedPet(null);
+            setSelectedTutor(null);
+
+        } catch (err: any) {
+            alert(err.message || 'Erro ao vincular pet ao tutor');
+        } finally {
+            setLinking(false);
+        }
+    }
 
     return (
         <main className="flex flex-1 justify-center py-8">
@@ -212,18 +233,20 @@ export function LinkPetTutorPage() {
                 {selectedPet && selectedTutor && (
                     <section className="mt-5 bg-white dark:bg-[#3a3225] p-8 rounded-2xl border shadow-xl max-w-2xl mx-auto">
                         <p className="text-center text-[#9a804c] mb-6 font-bold">
-                            Ao confirmar, <strong>{selectedTutor.nome}</strong> será registrado
-                            como tutor responsável por <strong>{selectedPet.nome}</strong>.
+                            Ao confirmar, <strong className="text-xl text-[#eca413]">{selectedTutor.nome}</strong> será registrado(a)
+                            como tutor(a) responsável por <strong className="text-xl text-[#eca413]">{selectedPet.nome}</strong>.
                         </p>
 
                         <button
+                            onClick={handleLinkPetTutor}
+                            disabled={linking}
                             className="w-full px-12 py-4 bg-primary font-bold rounded-xl
                             shadow-[0_4px_0_rgb(180,120,0)]
                             hover:translate-y-[2px] hover:shadow-[0_2px_0_rgb(180,120,0)]
                             active:translate-y-[4px] transition-all flex items-center justify-center gap-3"
                         >
                             <span className="material-symbols-outlined">link</span>
-                            Vincular Pet ao Tutor
+                            {linking ? 'Vinculando...' : 'Vincular Pet ao Tutor'}
                         </button>
                     </section>
                 )}
