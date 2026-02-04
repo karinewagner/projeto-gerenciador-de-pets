@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
-import { getTutorById } from '../../services/tutorService';
+import { deleteTutor, getTutorById, unlinkPetFromTutor } from '../../services/tutorService';
 import type { ITutorDetailsResponse } from '../../types/tutors';
 
 import {
@@ -14,7 +14,9 @@ import { DetailLayout } from '../../components/DetailLayout';
 import { DetailInfoGrid, type InfoItem } from '../../components/DetailInfoGrid';
 
 export function TutorDetailPage() {
+    const navigate = useNavigate();
     const { tutorId } = useParams<{ tutorId: string }>();
+
     const [tutor, setTutor] = useState<ITutorDetailsResponse | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -40,6 +42,45 @@ export function TutorDetailPage() {
             value: tutor?.endereco,
         },
     ];
+
+    async function handleDeleteTutor() {
+        if (!tutor) return;
+
+        const confirm = window.confirm(
+            'Tem certeza que deseja deletar o tutor?'
+        );
+
+        if (!confirm) return;
+
+        try {
+            await deleteTutor(tutor.id);
+
+            navigate(`/tutors`);
+        } catch (err: any) {
+            alert(err.message || 'Erro ao remover tutor');
+        }
+    }
+
+    async function handleRemovePet(petId: number) {
+        if (!tutor) return;
+
+        const confirm = window.confirm(
+            'Tem certeza que deseja remover o vínculo deste pet com o tutor?'
+        );
+
+        if (!confirm) return;
+
+        try {
+            await unlinkPetFromTutor(tutor.id, petId);
+
+            setTutor({
+                ...tutor,
+                pets: tutor.pets?.filter((pet) => pet.id !== petId),
+            });
+        } catch (err: any) {
+            alert(err.message || 'Erro ao remover vínculo');
+        }
+    }
 
     useEffect(() => {
         async function load() {
@@ -84,6 +125,9 @@ export function TutorDetailPage() {
                     editTo={`/tutors/edit/${tutor.id}`}
                     sideInfo={tutorInfo}
                     tutorInfo={null}
+                    petInfo={tutor.pets}
+                    onDelete={handleDeleteTutor}
+                    onRemovePet={handleRemovePet}
                 />
             )}
         </DetailLayout>
