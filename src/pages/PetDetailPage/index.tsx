@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
-import { getPetById } from '../../services/petService';
+import { getPetById, deletePet } from '../../services/petService';
 import type { IPetDetailsResponse } from '../../types/pets';
 
 import { DetailLayout } from '../../components/DetailLayout';
@@ -9,7 +9,9 @@ import { DetailInfoGrid, type InfoItem } from '../../components/DetailInfoGrid';
 
 
 export function PetDetailPage() {
+    const navigate = useNavigate();
     const { petId } = useParams<{ petId: string }>();
+
     const [pet, setPet] = useState<IPetDetailsResponse | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -25,6 +27,24 @@ export function PetDetailPage() {
             value: `${pet?.idade} Anos`,
         },
     ];
+
+    async function handleDeletePet() {
+        if (!pet) return;
+
+        const confirm = window.confirm(
+            'Tem certeza que deseja deletar o pet?'
+        );
+
+        if (!confirm) return;
+
+        try {
+            await deletePet(pet.id);
+
+            navigate(`/pets`);
+        } catch (err: any) {
+            alert(err.message || 'Erro ao remover pet');
+        }
+    }
 
     useEffect(() => {
         async function load() {
@@ -69,6 +89,8 @@ export function PetDetailPage() {
                     editTo={`/pets/edit/${pet.id}`}
                     sideInfo={petInfo}
                     tutorInfo={pet?.tutores}
+                    petInfo={null}
+                    onDelete={handleDeletePet}
                 />
             )}
         </DetailLayout>
