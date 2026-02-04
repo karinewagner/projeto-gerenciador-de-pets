@@ -101,8 +101,8 @@ export function PetFormPage() {
                 };
 
                 setPet(foundPet);
-            } catch {
-                console.log('erro getPetById em PetFormPage');
+            } catch (err) {
+                alert(`erro getPetById em PetFormPage ${err}`);
             }
         }
 

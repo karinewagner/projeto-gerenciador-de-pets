@@ -110,7 +110,7 @@ export function TutorFormPage() {
 
                 setTutor(foundTutor);
             } catch (err) {
-                console.log('erro getTutorById em TutorFormPage', err);
+                alert(`erro getTutorById em TutorFormPage ${err}`);
             }
         }
 
