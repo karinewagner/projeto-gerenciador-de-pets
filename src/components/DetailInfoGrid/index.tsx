@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import type { ITutorContent } from '../../types/tutors';
+import type { IPetContent } from '../../types/pets';
 
 export interface InfoItem {
     label: string;
@@ -14,6 +15,9 @@ interface DetailInfoGridProps {
     editTo: string;
     sideInfo: InfoItem[];
     tutorInfo: ITutorContent[] | null;
+    petInfo: IPetContent[] | null;
+    onDelete: () => void;
+    onRemovePet?: (petId: number) => void;
 }
 
 export function DetailInfoGrid({
@@ -22,6 +26,9 @@ export function DetailInfoGrid({
     editTo,
     sideInfo,
     tutorInfo,
+    petInfo,
+    onDelete,
+    onRemovePet
 }: DetailInfoGridProps) {
     return (
         <div className="flex flex-col lg:flex-row gap-8 mt-4">
@@ -44,6 +51,17 @@ export function DetailInfoGrid({
                             edit
                         </span>
                     </Link>
+                    <button
+                        onClick={onDelete}
+                        className="inline-flex items-center text-red-600
+              dark:text-white bg-white dark:bg-[#2d271a]
+              px-4 py-2 rounded-lg border border-primary/20
+              hover:border-primary transition-colors w-fit"
+                    >
+                        <span className="material-symbols-outlined text-xl">
+                            delete
+                        </span>
+                    </button>
                 </div>
 
                 <div className="relative w-full aspect-[4/3]
@@ -86,14 +104,40 @@ export function DetailInfoGrid({
                         <aside className="w-full lg:w-[360px] space-y-6">
                             <div className="bg-white dark:bg-[#1a150a] p-4 rounded-2xl shadow-sm border border-[#f3efe7] dark:border-[#3a3428] sticky top-24">
                                 <h3 className="text-lg font-bold mb-6">Contato do Tutor(es)</h3>
-                                <div className="flex flex-col gap-4 mb-6">
+                                <div className="flex flex-col gap-4 mb-6 max-h-[250px] overflow-y-auto">
                                     {tutorInfo.map((tutor) => (
-                                        <div key={tutor.id} className="flex flex-col">
-                                            <h4 className="font-bold text-base">{tutor.nome}</h4>
-                                            <div className="flex items-center gap-3 p-3 text-[#9a804c] text-sm">
-                                                <span className="material-symbols-outlined text-primary">call</span>
-                                                <span className="font-semibold">{tutor.telefone}</span>
-                                            </div>
+                                        <div key={tutor.id} className="flex items-center gap-3 p-3 ">
+                                            <span className="font-bold text-base">{tutor.nome}</span>
+                                            <span className="material-symbols-outlined text-primary">call</span>
+                                            <span className="font-semibold text-[#9a804c] text-sm">{tutor.telefone}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </aside>
+                    )
+                }
+                {
+                    petInfo && petInfo.length > 0 && (
+                        <aside className="w-full lg:w-[360px] space-y-6 ">
+                            <div className="bg-white dark:bg-[#1a150a] p-4 rounded-2xl shadow-sm border border-[#f3efe7] dark:border-[#3a3428] sticky top-24">
+                                <h3 className="text-lg font-bold mb-6">Pet(s) vinculado(s)</h3>
+                                <div className="flex flex-col gap-4 mb-6 max-h-[200px] overflow-y-auto">
+                                    {onRemovePet && petInfo.map((pet) => (
+                                        <div className="flex items-center gap-3 p-3 ">
+                                            <span className="material-symbols-outlined text-primary">pets</span>
+                                            <span className="font-bold text-base">{pet.nome}</span>
+                                            <span className="font-semibold text-[#9a804c] text-sm">{pet.raca}</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => onRemovePet(pet.id)}
+                                                className="text-red-600 hover:text-red-800 transition-colors"
+                                                title="Remover vínculo"
+                                            >
+                                                <span className="material-symbols-outlined">
+                                                    link_off
+                                                </span>
+                                            </button>
                                         </div>
                                     ))}
                                 </div>
