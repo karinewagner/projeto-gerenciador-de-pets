@@ -8,12 +8,14 @@ import {
     addTutorPhoto,
     removeTutorPhoto
 } from '../../services/tutorService';
-
+import { useToast } from '../../contexts/ToastContext';
 import type { ITutorContent } from '../../types/tutors';
+
 import { TutorForm } from '../../components/TutorForm';
 
 export function TutorFormPage() {
     const navigate = useNavigate();
+    const { show } = useToast();
     const { id } = useParams();
 
     const isEditing = Boolean(id);
@@ -63,9 +65,11 @@ export function TutorFormPage() {
                 });
             }
 
+            show('Tutor salvo com sucesso!', 'success');
             navigate(-1);
+
         } catch (err: any) {
-            alert(err.message);
+            show(err.message || 'Erro inesperado', 'error');
         } finally {
             setIsSaving(false);
         }
@@ -82,11 +86,12 @@ export function TutorFormPage() {
                 foto: undefined,
             });
 
+            show('Foto removida com sucesso!', 'success');
             setPhotoFile(null);
-
             navigate(`/tutors/${id}`);
+
         } catch (err: any) {
-            alert(err.message);
+            show(err.message || 'Erro inesperado', 'error');
         }
     }
 
@@ -109,8 +114,8 @@ export function TutorFormPage() {
                 };
 
                 setTutor(foundTutor);
-            } catch (err) {
-                alert(`erro getTutorById em TutorFormPage ${err}`);
+            } catch (err: any) {
+                show(err.message || 'Erro inesperado', 'error');
             }
         }
 
