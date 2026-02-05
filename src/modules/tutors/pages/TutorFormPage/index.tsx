@@ -7,11 +7,11 @@ import {
     updateTutor,
     addTutorPhoto,
     removeTutorPhoto
-} from '../../services/tutorService';
-import { useToast } from '../../contexts/ToastContext';
-import type { ITutorContent } from '../../types/tutors';
+} from '../../../../services/tutorService';
+import { useToast } from '../../../../contexts/ToastContext';
+import type { ITutorContent } from '../../../../types/tutors';
 
-import { TutorForm } from '../../components/TutorForm';
+import { TutorForm } from '../../../../components/TutorForm';
 
 export function TutorFormPage() {
     const navigate = useNavigate();

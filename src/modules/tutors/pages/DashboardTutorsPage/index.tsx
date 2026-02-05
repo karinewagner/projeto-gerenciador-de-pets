@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import { useTutors } from '../../hooks/useTutors';
+import { useTutors } from '../../../../hooks/useTutors';
 
-import { DashboardLayout } from '../../components/DashboardLayout';
-import { Pagination } from '../../components/Pagination';
-import { SearchBar } from '../../components/SearchBar';
-import { TutorCard } from '../../components/TutorCard';
-import { ListState } from '../../components/ListState';
+import { DashboardLayout } from '../../../../components/DashboardLayout';
+import { Pagination } from '../../../../components/Pagination';
+import { SearchBar } from '../../../../components/SearchBar';
+import { TutorCard } from '../../../../components/TutorCard';
+import { ListState } from '../../../../components/ListState';
 
 export function DashboardTutorsPage() {
     const navigate = useNavigate();

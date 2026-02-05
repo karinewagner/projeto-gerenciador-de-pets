@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
-import { deleteTutor, getTutorById, unlinkPetFromTutor } from '../../services/tutorService';
-import { useSafeAction } from '../../hooks/useSafeAction';
-import type { ITutorDetailsResponse } from '../../types/tutors';
+import { deleteTutor, getTutorById, unlinkPetFromTutor } from '../../../../services/tutorService';
+import { useSafeAction } from '../../../../hooks/useSafeAction';
+import type { ITutorDetailsResponse } from '../../../../types/tutors';
 
 import {
     maskCPF,
     maskPhone,
     maskEmail,
-} from '../../utils/masks';
+} from '../../../../utils/masks';
 
-import { DetailLayout } from '../../components/DetailLayout';
-import { DetailInfoGrid, type InfoItem } from '../../components/DetailInfoGrid';
+import { DetailLayout } from '../../../../components/DetailLayout';
+import { DetailInfoGrid, type InfoItem } from '../../../../components/DetailInfoGrid';
 
 export function TutorDetailPage() {
     const navigate = useNavigate();
