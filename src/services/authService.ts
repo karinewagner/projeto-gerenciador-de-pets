@@ -43,20 +43,19 @@ export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-// src/services/authService.ts
 export async function refreshToken() {
-  const refreshToken = getRefreshToken();
+  const currentRefreshToken = getRefreshToken();
 
-  if (!refreshToken) {
+  if (!currentRefreshToken) {
     throw new Error('Refresh token ausente');
   }
 
   const response = await fetch(`${API_URL}/autenticacao/refresh`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
+      Authorization: `Bearer ${currentRefreshToken}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ refreshToken }),
   });
 
   if (!response.ok) {
@@ -67,6 +66,10 @@ export async function refreshToken() {
   const data = await response.json();
 
   localStorage.setItem(TOKEN_KEY, data.access_token);
+
+  if (data.refresh_token) {
+    localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
+  }
 
   return data.access_token;
 }

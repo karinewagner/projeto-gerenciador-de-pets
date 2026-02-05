@@ -11,12 +11,9 @@ export async function authFetch(
 
     const headers: Record<string, string> = {
         ...(options.headers as Record<string, string>),
-        Authorization: token ? `Bearer ${token}` : '',
+        ...(token && { Authorization: `Bearer ${token}` }),
+        ...(!isFormData && options.body && { 'Content-Type': 'application/json' }),
     };
-
-    if (!isFormData && options.body) {
-        headers['Content-Type'] = 'application/json';
-    }
 
     const response = await fetch(`${API_URL}${url}`, {
         ...options,
@@ -28,8 +25,9 @@ export async function authFetch(
             const newToken = await refreshToken();
 
             const retryHeaders: Record<string, string> = {
-                ...headers,
+                ...(options.headers as Record<string, string>),
                 Authorization: `Bearer ${newToken}`,
+                ...(!isFormData && options.body && { 'Content-Type': 'application/json' }),
             };
 
             const retryResponse = await fetch(`${API_URL}${url}`, {
@@ -38,14 +36,15 @@ export async function authFetch(
             });
 
             if (!retryResponse.ok) {
-                throw new Error('Erro após refresh');
+                const error = await retryResponse.json().catch(() => ({}));
+                throw new Error(error?.message || 'Erro inesperado');
             }
 
             return retryResponse;
-        } catch {
+        } catch (error) {
             logout();
             window.location.href = '/login';
-            throw new Error('Sessão expirada');
+            throw error;
         }
     }
 
