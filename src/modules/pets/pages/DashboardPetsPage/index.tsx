@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import { usePets } from '../../hooks/usePets';
+import { usePets } from '../../../../hooks/usePets';
 
-import { DashboardLayout } from '../../components/DashboardLayout';
-import { PetCard } from '../../components/PetCard';
-import { Pagination } from '../../components/Pagination';
-import { SearchBar } from '../../components/SearchBar';
-import { ListState } from '../../components/ListState';
+import { DashboardLayout } from '../../../../components/DashboardLayout';
+import { PetCard } from '../../../../components/PetCard';
+import { Pagination } from '../../../../components/Pagination';
+import { SearchBar } from '../../../../components/SearchBar';
+import { ListState } from '../../../../components/ListState';
 
 export function DashboardPetsPage() {
     const navigate = useNavigate();

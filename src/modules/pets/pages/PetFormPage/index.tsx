@@ -7,11 +7,11 @@ import {
     updatePet,
     addPetPhoto,
     removePetPhoto
-} from '../../services/petService';
-import { useToast } from '../../contexts/ToastContext';
-import type { IPetContent } from '../../types/pets';
+} from '../../../../services/petService';
+import { useToast } from '../../../../contexts/ToastContext';
+import type { IPetContent } from '../../../../types/pets';
 
-import { PetForm } from '../../components/PetForm';
+import { PetForm } from '../../../../components/PetForm';
 
 export function PetFormPage() {
     const navigate = useNavigate();

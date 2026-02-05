@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
-import { getPetById, deletePet } from '../../services/petService';
-import { useSafeAction } from '../../hooks/useSafeAction';
-import type { IPetDetailsResponse } from '../../types/pets';
+import { getPetById, deletePet } from '../../../../services/petService';
+import { useSafeAction } from '../../../../hooks/useSafeAction';
+import type { IPetDetailsResponse } from '../../../../types/pets';
 
-import { DetailLayout } from '../../components/DetailLayout';
-import { DetailInfoGrid, type InfoItem } from '../../components/DetailInfoGrid';
+import { DetailLayout } from '../../../../components/DetailLayout';
+import { DetailInfoGrid, type InfoItem } from '../../../../components/DetailInfoGrid';
 
 export function PetDetailPage() {
     const navigate = useNavigate();
