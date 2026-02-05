@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import { deleteTutor, getTutorById, unlinkPetFromTutor } from '../../services/tutorService';
+import { useSafeAction } from '../../hooks/useSafeAction';
 import type { ITutorDetailsResponse } from '../../types/tutors';
 
 import {
@@ -15,6 +16,7 @@ import { DetailInfoGrid, type InfoItem } from '../../components/DetailInfoGrid';
 
 export function TutorDetailPage() {
     const navigate = useNavigate();
+    const safeAction = useSafeAction();
     const { tutorId } = useParams<{ tutorId: string }>();
 
     const [tutor, setTutor] = useState<ITutorDetailsResponse | null>(null);
@@ -46,39 +48,40 @@ export function TutorDetailPage() {
     async function handleDeleteTutor() {
         if (!tutor) return;
 
-        const confirm = window.confirm(
-            'Tem certeza que deseja deletar o tutor?'
+        const success = await safeAction(
+            () => deleteTutor(tutor.id),
+            {
+                confirmTitle: 'Excluir Tutor',
+                confirmMessage: 'Tem certeza que deseja deletar este tutor?',
+                successMessage: 'Tutor removido com sucesso!',
+                errorMessage: 'Erro ao remover tutor',
+            }
         );
 
-        if (!confirm) return;
-
-        try {
-            await deleteTutor(tutor.id);
-
-            navigate(`/tutors`);
-        } catch (err: any) {
-            alert(err.message || 'Erro ao remover tutor');
+        if (success) {
+            navigate('/tutors');
         }
     }
 
     async function handleRemovePet(petId: number) {
         if (!tutor) return;
 
-        const confirm = window.confirm(
-            'Tem certeza que deseja remover o vínculo deste pet com o tutor?'
+        const success = await safeAction(
+            () => unlinkPetFromTutor(tutor.id, petId),
+            {
+                confirmTitle: 'Remover vínculo',
+                confirmMessage:
+                    'Tem certeza que deseja remover o vínculo deste pet com o tutor?',
+                successMessage: 'Vínculo removido com sucesso!',
+                errorMessage: 'Erro ao remover vínculo',
+            }
         );
 
-        if (!confirm) return;
-
-        try {
-            await unlinkPetFromTutor(tutor.id, petId);
-
+        if (success) {
             setTutor({
                 ...tutor,
                 pets: tutor.pets?.filter((pet) => pet.id !== petId),
             });
-        } catch (err: any) {
-            alert(err.message || 'Erro ao remover vínculo');
         }
     }
 
