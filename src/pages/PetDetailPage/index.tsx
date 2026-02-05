@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import { getPetById, deletePet } from '../../services/petService';
+import { useSafeAction } from '../../hooks/useSafeAction';
 import type { IPetDetailsResponse } from '../../types/pets';
 
 import { DetailLayout } from '../../components/DetailLayout';
 import { DetailInfoGrid, type InfoItem } from '../../components/DetailInfoGrid';
 
-
 export function PetDetailPage() {
     const navigate = useNavigate();
+    const safeAction = useSafeAction();
     const { petId } = useParams<{ petId: string }>();
 
     const [pet, setPet] = useState<IPetDetailsResponse | null>(null);
@@ -31,18 +32,17 @@ export function PetDetailPage() {
     async function handleDeletePet() {
         if (!pet) return;
 
-        const confirm = window.confirm(
-            'Tem certeza que deseja deletar o pet?'
-        );
-
-        if (!confirm) return;
-
-        try {
-            await deletePet(pet.id);
-
-            navigate(`/pets`);
-        } catch (err: any) {
-            alert(err.message || 'Erro ao remover pet');
+        const success = await safeAction(
+            () => deletePet(pet.id),
+            {
+                confirmTitle: 'Excluir Pet',
+                confirmMessage: 'Tem certeza que deseja deletar este pet?',
+                successMessage: 'Pet removido com sucesso!',
+                errorMessage: 'Erro ao remover pet',
+            }
+        )
+        if (success) {
+            navigate('/pets');
         }
     }
 
