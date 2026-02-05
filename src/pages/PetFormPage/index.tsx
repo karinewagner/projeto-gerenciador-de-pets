@@ -8,12 +8,14 @@ import {
     addPetPhoto,
     removePetPhoto
 } from '../../services/petService';
-
+import { useToast } from '../../contexts/ToastContext';
 import type { IPetContent } from '../../types/pets';
+
 import { PetForm } from '../../components/PetForm';
 
 export function PetFormPage() {
     const navigate = useNavigate();
+    const { show } = useToast();
     const { id } = useParams();
 
     const isEditing = Boolean(id);
@@ -57,9 +59,11 @@ export function PetFormPage() {
                 });
             }
 
+            show('Pet salvo com sucesso!', 'success');
             navigate(-1);
+
         } catch (err: any) {
-            alert(err.message);
+            show(err.message || 'Erro inesperado', 'error');
         } finally {
             setIsSaving(false);
         }
@@ -76,11 +80,12 @@ export function PetFormPage() {
                 foto: undefined,
             });
 
+            show('Foto removida com sucesso!', 'success');
             setPhotoFile(null);
-
             navigate(`/pets/${id}`);
+
         } catch (err: any) {
-            alert(err.message);
+            show(err.message || 'Erro inesperado', 'error');
         }
     }
 
@@ -101,8 +106,8 @@ export function PetFormPage() {
                 };
 
                 setPet(foundPet);
-            } catch (err) {
-                alert(`erro getPetById em PetFormPage ${err}`);
+            } catch (err: any) {
+                show(err.message || 'Erro inesperado', 'error');
             }
         }
 
