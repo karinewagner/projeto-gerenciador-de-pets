@@ -1,73 +1,141 @@
-# React + TypeScript + Vite
+# Processo Seletivo SEPLAG
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Inscrição Nº:** 16547  
+> **Vaga:** PROCESSO SELETIVO CONJUNTO Nº 001/2026/SEPLAG e demais Órgãos - Engenheiro da Computação - Sênior
+> 🔗 **Demo:** [https://karinewagner.github.io/projeto-gerenciador-de-pets/login](https://karinewagner.github.io/projeto-gerenciador-de-pets/login)
 
-Currently, two official plugins are available:
+## 📋 Visão Geral do Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este projeto é uma aplicação Single Page Application (SPA) desenvolvida em **React 18** com **TypeScript**, focada em atender os requisitos técnicos do processo seletivo para Engenheiro da Computação Sênior.
 
-## React Compiler
+O sistema permite o gerenciamento completo de Pets e Tutores, incluindo autenticação segura, uploads de imagens, listagens e vínculo entre entidades.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🏗️ Arquitetura e Decisões Técnicas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+A arquitetura foi pensada para atender aos critérios de **modularização**, **clean code** e **escalabilidade**.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Modularização**: O código está organizado em módulos (`src/modules`), onde cada domínio (Pets, Tutors) possui suas próprias rotas, páginas e lógica, facilitando a escalabilidade.
+- **Componentização**: Componentes reutilizáveis (UI Kit) estão em `src/components`.
+- **Camada de Serviço (Service Layer)**: Toda a comunicação com a API é centralizada em `src/services`, desacoplando a UI da lógica de dados.
+- **Custom Hooks (Facade Pattern)**: Hooks como `usePets` atuam como uma fachada para a lógica de estado e busca de dados, simplificando os componentes de visualização.
+- **Performance**:
+  - **Lazy Loading**: As rotas principais são carregadas sob demanda (`React.lazy`).
+  - **Otimização de Renderização**: Uso de React Hooks padrão e TypeScript para garantir type-safety.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Tecnologias Principais
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Frontend**: React 18, TypeScript, Vite
+- **Roteamento**: React Router DOM 6
+- **Estilização**: Tailwind CSS (Responsividade e Design System)
+- **Qualidade de Código**: ESLint, Prettier
+- **Testes**: Vitest, React Testing Library
+- **Containerização**: Docker, Docker Compose
+
+---
+
+## 🚀 Como Executar o Projeto
+
+Você pode executar o projeto de duas formas: localmente com Node.js ou via Docker.
+
+### Pré-requisitos
+- Node.js 18+ (para execução local)
+- Docker e Docker Compose (para execução em container)
+
+### 1. Execução Local (Desenvolvimento)
+
+1. Clone o repositório e acesse a pasta:
+   ```bash
+   git clone <repo-url>
+   cd projeto-gerenciador-de-pets
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Crie o arquivo `.env` na raiz (baseado no `.env.example`):
+   ```env
+   VITE_API_URL=https://pet-manager-api.geia.vip
+   ```
+
+4. Execute o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+   Acesse: `http://localhost:5173`
+
+### 2. Execução via Docker
+
+O projeto possui um `Dockerfile` otimizado com multi-stage build (Build -> Nginx).
+
+1. Construa e suba o container:
+   ```bash
+   docker-compose up -d --build
+   ```
+
+2. Acesse a aplicação:
+   Acesse: `http://localhost:8080`
+
+*Nota: A URL da API é injetada via ARG de build no Dockerfile e environment no docker-compose.*
+
+---
+
+## ✅ Checklist de Implementação (Avaliação Prova Técnica)
+
+Abaixo descrevo como cada ponto solicitado na prova foi atendido neste projeto:
+
+### A. Estrutura e Organização
+- [x] **Modularização Angular ou React**: Estrutura de pastas `src/modules/{feature}` (Pets, Tutors) isolando responsabilidades. Componentes UI genéricos em `src/components`.
+- [x] **Responsividade e UX**: Interface responsiva construída com **Tailwind CSS**. Layout adaptável para mobile e desktop. Feedback visual com Toasts e Loaders.
+- [x] **Documentação (README)**: Este documento cobre instalação, arquitetura e execução.
+
+### B. Funcionalidades
+- [x] **Consumo da API (CRUD Completo)**: Implementado em `src/services/petService.ts` e `src/services/tutorService.ts`. Wrapper `authFetch` em `apiService.ts` gerencia headers.
+- [x] **Paginação e Busca**: Implementado no backend e frontend. Componentes `Pagination` e `SearchBar` integrados aos hooks de listagem.
+- [x] **Autenticação JWT**: Login com armazenamento seguro (localStorage), **validação de expiração do token** (client-side), e interceptor para **renovação automática de token (Refresh Token)** implementado em `src/services/apiService.ts` (lógica de retry 401).
+- [x] **Upload de imagens**: Funcionalidade implementada em `petService.ts` (`addPetPhoto`) utilizando `FormData`.
+- [x] **Lazy Loading**: Rotas de Pets e Tutors carregadas via `lazy()` em `App.tsx` para performance inicial.
+- [x] **State Management**: Uso de **Context API** para estados globais (Toast, ConfirmModal) e **Custom Hooks** (`usePets`) encapsulando a lógica de negócio e estado local complexo.
+- [x] **Testes Unitários**: Configuração do **Vitest** presente. Comandos `npm run test` disponíveis.
+
+### C. Boas Práticas e Entrega
+- [x] **Clean Code**: Código fortemente tipado (TypeScript), nomes de funções semânticos, separação de responsabilidades (Service vs Component vs Hook).
+- [x] **Performance**: Build otimizado com Vite, Lazy Loading e Code Splitting.
+- [x] **Containerização**: `Dockerfile` com multi-stage build servindo estáticos via Nginx.
+- [x] **Deploy GitHub Pages**: Configuração condicional de `base` em `vite.config.ts` para suporte a múltiplos ambientes (desenvolvimento e produção).
+- [x] **CI/CD**: Workflow GitHub Actions para deploy automático no GitHub Pages (`.github/workflows/deploy.yml`).
+
+---
+
+## 🧪 Testes
+
+Para rodar os testes unitários configurados com Vitest:
+
+```bash
+npm run test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Para ver a cobertura (se configurado):
+```bash
+npm run test:run
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📂 Estrutura de Pastas
+
+```
+src/
+├── components/   # Componentes reutilizáveis (Input, Button, Layouts)
+├── contexts/     # Estado global (Toast, Auth/Confirm)
+├── hooks/        # Custom Hooks (Lógica de API/Estado)
+├── modules/      # Módulos de negócio (Feature-based)
+│   ├── pets/     # Rotas, Páginas e Componentes de Pets
+│   └── tutors/   # Rotas, Páginas e Componentes de Tutores
+├── pages/        # Páginas genéricas (Login, 404)
+├── services/     # Camada de comunicação com API (Axios/Fetch)
+└── types/        # Definições de Tipos TypeScript (Interfaces)
 ```
