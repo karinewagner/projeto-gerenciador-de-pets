@@ -43,7 +43,7 @@ Você pode executar o projeto de duas formas: localmente com Node.js ou via Dock
 - Node.js 18+ (para execução local)
 - Docker e Docker Compose (para execução em container)
 
-### 1. Execução Local (Desenvolvimento)
+### 1. Execução Local
 
 1. Clone o repositório e acesse a pasta:
    ```bash
@@ -81,32 +81,27 @@ O projeto possui um `Dockerfile` otimizado com multi-stage build (Build -> Nginx
 
 *Nota: A URL da API é injetada via ARG de build no Dockerfile e environment no docker-compose.*
 
+### 3. Rodando a imagem do DockerHub
+Puxe a imagem diretamente do DockerHub e execute.
+
+1️⃣ Puxe a imagem do DockerHub:
+   ```bash
+   docker pull karinewagner/busca-pet-app
+   ```
+2️⃣ Rode o container:
+   ```bash
+   docker run -p 8080:80 karinewagner/busca-pet-app
+   ```
+3️⃣ Acesse no navegador: 
+
+http://localhost:8080
+
+> **Nota**: Certifique-se de que o Docker está instalado e rodando em sua máquina para as opções 2 e 3.
+
 ---
+## 🔗 API utilizada
 
-## ✅ Checklist de Implementação (Avaliação Prova Técnica)
-
-Abaixo descrevo como cada ponto solicitado na prova foi atendido neste projeto:
-
-### A. Estrutura e Organização
-- [x] **Modularização Angular ou React**: Estrutura de pastas `src/modules/{feature}` (Pets, Tutors) isolando responsabilidades. Componentes UI genéricos em `src/components`.
-- [x] **Responsividade e UX**: Interface responsiva construída com **Tailwind CSS**. Layout adaptável para mobile e desktop. Feedback visual com Toasts e Loaders.
-- [x] **Documentação (README)**: Este documento cobre instalação, arquitetura e execução.
-
-### B. Funcionalidades
-- [x] **Consumo da API (CRUD Completo)**: Implementado em `src/services/petService.ts` e `src/services/tutorService.ts`. Wrapper `authFetch` em `apiService.ts` gerencia headers.
-- [x] **Paginação e Busca**: Implementado no backend e frontend. Componentes `Pagination` e `SearchBar` integrados aos hooks de listagem.
-- [x] **Autenticação JWT**: Login com armazenamento seguro (localStorage), **validação de expiração do token** (client-side), e interceptor para **renovação automática de token (Refresh Token)** implementado em `src/services/apiService.ts` (lógica de retry 401).
-- [x] **Upload de imagens**: Funcionalidade implementada em `petService.ts` (`addPetPhoto`) utilizando `FormData`.
-- [x] **Lazy Loading**: Rotas de Pets e Tutors carregadas via `lazy()` em `App.tsx` para performance inicial.
-- [x] **State Management**: Uso de **Context API** para estados globais (Toast, ConfirmModal) e **Custom Hooks** (`usePets`) encapsulando a lógica de negócio e estado local complexo.
-- [x] **Testes Unitários**: Configuração do **Vitest** presente. Comandos `npm run test` disponíveis.
-
-### C. Boas Práticas e Entrega
-- [x] **Clean Code**: Código fortemente tipado (TypeScript), nomes de funções semânticos, separação de responsabilidades (Service vs Component vs Hook).
-- [x] **Performance**: Build otimizado com Vite, Lazy Loading e Code Splitting.
-- [x] **Containerização**: `Dockerfile` com multi-stage build servindo estáticos via Nginx.
-- [x] **Deploy GitHub Pages**: Configuração condicional de `base` em `vite.config.ts` para suporte a múltiplos ambientes (desenvolvimento e produção).
-- [x] **CI/CD**: Workflow GitHub Actions para deploy automático no GitHub Pages (`.github/workflows/deploy.yml`).
+Documentação dos endpoints: https://pet-manager-api.geia.vip/q/swagger-ui/
 
 ---
 
