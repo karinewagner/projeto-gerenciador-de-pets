@@ -3,6 +3,7 @@ import type { LoginCredentials, LoginResponse } from '../types/auth';
 const API_URL = import.meta.env.VITE_API_URL;
 const TOKEN_KEY = 'authToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
+const TOKEN_EXPIRATION_KEY = 'authTokenExpiration';
 
 export async function login(
   credentials: LoginCredentials
@@ -24,8 +25,10 @@ export async function login(
 
   const data: LoginResponse = await response.json();
 
+  const expiresAt = Date.now() + data.expires_in * 1000;
   localStorage.setItem(TOKEN_KEY, data.access_token);
   localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
+  localStorage.setItem(TOKEN_EXPIRATION_KEY, String(expiresAt));
 
   return data;
 }
@@ -33,10 +36,23 @@ export async function login(
 export function logout(): void {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);
+  localStorage.removeItem(TOKEN_EXPIRATION_KEY);
 }
 
 export function isAuthenticated(): boolean {
-  return Boolean(localStorage.getItem(TOKEN_KEY));
+  const token = localStorage.getItem(TOKEN_KEY);
+  const expiresAt = localStorage.getItem(TOKEN_EXPIRATION_KEY);
+
+  if (!token || !expiresAt) {
+    return false;
+  }
+
+  if (Date.now() >= Number(expiresAt)) {
+    logout();
+    return false;
+  }
+
+  return true;
 }
 
 export function getToken(): string | null {
@@ -66,6 +82,11 @@ export async function refreshToken() {
   const data = await response.json();
 
   localStorage.setItem(TOKEN_KEY, data.access_token);
+
+  if (data.expires_in) {
+    const newExpiresAt = Date.now() + data.expires_in * 1000;
+    localStorage.setItem(TOKEN_EXPIRATION_KEY, String(newExpiresAt));
+  }
 
   if (data.refresh_token) {
     localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
