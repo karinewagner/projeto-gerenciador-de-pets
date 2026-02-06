@@ -1,6 +1,6 @@
 import { getToken, refreshToken, logout } from './authService';
 
-const API_URL = 'https://pet-manager-api.geia.vip';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function authFetch(
     url: string,

@@ -1,6 +1,6 @@
 import type { LoginCredentials, LoginResponse } from '../types/auth';
 
-const API_URL = 'https://pet-manager-api.geia.vip';
+const API_URL = import.meta.env.VITE_API_URL;
 const TOKEN_KEY = 'authToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 
