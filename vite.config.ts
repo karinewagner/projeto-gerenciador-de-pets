@@ -4,7 +4,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/projeto-gerenciador-de-pets/',
   plugins: [react()],
   test: {
     environment: 'jsdom',
