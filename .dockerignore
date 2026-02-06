@@ -1,0 +1,24 @@
+# Ignorar dependências locais (o Docker rodará seu próprio npm install)
+node_modules/
+
+# Ignorar pastas de build locais
+dist/
+build/
+
+# Ignorar logs e arquivos de sistema
+npm-debug.log*
+yarn-debug.log*
+.DS_Store
+
+# Ignorar arquivos do Git
+.git
+.github/
+.gitignore
+
+# Ignorar arquivos de configuração do Docker (não são necessários dentro da imagem)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Ignorar arquivo .env (as variáveis são passadas via --build-arg para segurança)
+.env
